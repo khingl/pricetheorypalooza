@@ -16,7 +16,7 @@ Price Theory Palooza is here to help you earn it.
 
 ## How?
 
-See if you can answer the puzzles! Then head over to Substack and join in the discussion. How well did you do?
+See if you can answer the puzzles! Then head over to [Substack](https://pricetheorypalooza.substack.com/) and join in the discussion. How well did you do?
 
 ## Who?
 
