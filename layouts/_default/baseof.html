@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ if not .IsHome }}{{ .Title }} | {{ end }}{{ .Site.Title }}</title>
+    <meta name="description" content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #2a2a2a;
+            --text-light: #555555;
+            --border-color: #e0e0e0;
+            --link-color: #1a5490;
+            --link-hover: #0d3a6b;
+            --sidebar-width: 200px;
+            --max-content-width: 800px;
+        }
+
+        body {
+            font-family: 'Georgia', 'Palatino', 'Times New Roman', serif;
+            font-size: 18px;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: var(--sidebar-width);
+            padding: 2rem 1.5rem;
+            border-right: 1px solid var(--border-color);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar h1 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .sidebar h1 a {
+            color: var(--text-color);
+            text-decoration: none;
+        }
+
+        .sidebar h1 a:hover {
+            color: var(--link-color);
+        }
+
+        .sidebar-image {
+            width: 100%;
+            max-width: 120px;
+            height: auto;
+            margin: 0.5rem 0 0;
+            opacity: 0.85;
+        }
+
+        .sidebar nav {
+            margin-top: 1rem;
+        }
+
+        .sidebar nav ul {
+            list-style: none;
+        }
+
+        .sidebar nav li {
+            margin-bottom: 0.8rem;
+        }
+
+        .sidebar nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.2s;
+        }
+
+        .sidebar nav a:hover,
+        .sidebar nav a.active {
+            color: var(--link-color);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: 3rem;
+            max-width: calc(var(--max-content-width) + 6rem);
+        }
+
+        .container {
+            max-width: var(--max-content-width);
+            margin: 0 auto;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 600;
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+            line-height: 1.3;
+        }
+
+        h1 { font-size: 20pt; }
+        h2 { font-size: 16pt; }
+        h3 { font-size: 1.3rem; }
+
+        p {
+            margin-bottom: 1em;
+        }
+
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+        a:hover {
+            color: var(--link-hover);
+            border-bottom-color: var(--link-hover);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 0.6rem 1.2rem;
+            background-color: var(--link-color);
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            border: none;
+            font-size: 1rem;
+            transition: background-color 0.2s;
+            font-family: inherit;
+        }
+
+        .btn:hover {
+            background-color: var(--link-hover);
+            color: white;
+            border-bottom: none;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+                padding: 1.5rem;
+            }
+
+            .sidebar nav {
+                margin-top: 1rem;
+            }
+
+            .sidebar nav ul {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .sidebar nav li {
+                margin-bottom: 0;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+
+    {{ block "head" . }}{{ end }}
+</head>
+<body>
+    <aside class="sidebar">
+        <h1><a href="{{ .Site.BaseURL }}">{{ .Site.Title }}</a></h1>
+        <img src="{{ .Site.BaseURL }}images/SandD.png" alt="Supply and Demand" class="sidebar-image">
+        <nav>
+            <ul>
+                <li><a href="{{ .Site.BaseURL }}">Home</a></li>
+                <li><a href="{{ .Site.BaseURL }}about/">About</a></li>
+                <li><a href="{{ .Site.BaseURL }}archive/">Archive</a></li>
+                <li><a href="{{ .Site.BaseURL }}catalogue/">Catalogue</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <div class="container">
+            {{ block "main" . }}{{ end }}
+        </div>
+    </main>
+</body>
+</html>

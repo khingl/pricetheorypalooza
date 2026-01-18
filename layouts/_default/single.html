@@ -1,0 +1,177 @@
+{{ define "head" }}
+<style>
+    article header {
+        margin-bottom: 2.5rem;
+    }
+
+    article header h1 {
+        margin: 0 0 0.25rem 0;
+    }
+
+    .puzzle-description {
+        color: var(--text-light);
+        font-size: 1rem;
+        margin: 0 0 1.5rem 0;
+    }
+
+    .question-type {
+        font-weight: bold;
+        margin-bottom: 1rem;
+    }
+
+    .content {
+        margin-bottom: 2rem;
+    }
+
+    .puzzle-meta {
+        border-top: 1px solid #e8e8e8;
+        padding-top: 1.5rem;
+        font-size: 0.95rem;
+        color: var(--text-light);
+    }
+
+    .puzzle-meta p {
+        margin-bottom: 0.5rem;
+    }
+
+    .puzzle-source {
+        padding-left: 4.5em;
+        text-indent: -4.5em;
+        margin-bottom: 0.5rem;
+    }
+
+    .puzzle-source a {
+        word-break: break-all;
+    }
+
+    .puzzle-actions {
+        margin-top: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+
+    .nav-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        background-color: var(--link-color);
+        color: white;
+        border-radius: 4px;
+        text-decoration: none;
+        border: none;
+        font-size: 1.2rem;
+        transition: background-color 0.2s;
+    }
+
+    .nav-btn:hover {
+        background-color: var(--link-hover);
+        color: white;
+        border-bottom: none;
+    }
+
+    .nav-btn.disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+
+    details {
+        margin: 1.5rem 0;
+        padding: 1rem;
+        background-color: #f9f9f9;
+        border-left: 3px solid var(--link-color);
+    }
+
+    details summary {
+        cursor: pointer;
+        font-weight: 600;
+        color: var(--link-color);
+        user-select: none;
+    }
+
+    details summary:hover {
+        color: var(--link-hover);
+    }
+
+    details[open] summary {
+        margin-bottom: 1rem;
+    }
+
+    @media print {
+        details {
+            display: block;
+        }
+        details summary {
+            display: none;
+        }
+        details > *:not(summary) {
+            display: block;
+        }
+    }
+</style>
+{{ end }}
+
+{{ define "main" }}
+<article>
+    <header>
+        <h1>{{ .Title }}</h1>
+        {{ if .Description }}
+        <p class="puzzle-description">{{ .Description }}</p>
+        {{ end }}
+    </header>
+
+    {{ if and (eq .Section "puzzles") .Params.subtitle }}
+    <p class="question-type">{{ .Params.subtitle }}</p>
+    {{ end }}
+
+    <div class="content">
+        {{ .Content }}
+    </div>
+
+    {{ if eq .Section "puzzles" }}
+    <div class="puzzle-meta">
+        {{ if .Params.source }}
+        <p class="puzzle-source"><strong>Source:</strong> {{ .Params.source | markdownify }}</p>
+        {{ end }}
+
+        {{ if .Params.topics }}
+        <p>
+            <strong>Topics:</strong>
+            {{ range $index, $topic := .Params.topics }}
+                {{ if $index }}, {{ end }}
+                <a href="{{ $.Site.BaseURL }}topics/{{ $topic | urlize }}/">{{ $topic }}</a>
+            {{ end }}
+        </p>
+        {{ end }}
+
+        <div class="puzzle-actions">
+            {{ if .Params.substack_url }}
+            <a href="{{ .Params.substack_url }}" class="btn" target="_blank" rel="noopener">
+                Read on Substack
+            </a>
+            {{ else }}
+            <span class="btn" style="background-color: #ccc; cursor: default;">
+                Read on Substack
+            </span>
+            {{ end }}
+
+            {{- with .PrevInSection }}
+            <a href="{{ .RelPermalink }}" class="nav-btn" title="Previous: {{ .Date.Format "January 2, 2006" }}">←</a>
+            {{- else }}
+            <span class="nav-btn disabled">←</span>
+            {{- end }}
+
+            {{- with .NextInSection }}
+            <a href="{{ .RelPermalink }}" class="nav-btn" title="Next: {{ .Date.Format "January 2, 2006" }}">→</a>
+            {{- else }}
+            <span class="nav-btn disabled">→</span>
+            {{- end }}
+        </div>
+    </div>
+    {{ end }}
+</article>
+{{ end }}

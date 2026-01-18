@@ -1,0 +1,23 @@
+baseURL = "https://kurtishingl.com/pricetheorypalooza/"
+languageCode = 'en-us'
+title = 'Price Theory Palooza'
+
+[params]
+  description = "A catalogue of price theory puzzles and problems"
+  author = "Kurtis Hingl"
+  email = "khingl@gmu.edu"
+
+[taxonomies]
+  topic = "topics"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true  # Allow HTML in markdown for math and custom elements
+
+[outputs]
+  home = ["HTML", "RSS"]
+  section = ["HTML", "RSS"]
+
+# Disable unused Hugo features for faster builds
+disableKinds = []

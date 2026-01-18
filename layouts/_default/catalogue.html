@@ -1,0 +1,191 @@
+{{ define "head" }}
+<style>
+    .filters {
+        margin: 2rem 0;
+        padding: 1.5rem;
+        background-color: #f9f9f9;
+        border-radius: 4px;
+    }
+
+    .filter-group {
+        margin-bottom: 1rem;
+    }
+
+    .filter-group:last-child {
+        margin-bottom: 0;
+    }
+
+    .filter-group label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: var(--text-color);
+    }
+
+    .filter-group select {
+        width: 100%;
+        max-width: 300px;
+        padding: 0.5rem;
+        font-family: inherit;
+        font-size: 0.95rem;
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        background-color: white;
+    }
+
+    .puzzle-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+
+    .puzzle-card {
+        padding: 1.5rem;
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        transition: box-shadow 0.2s;
+    }
+
+    .puzzle-card:hover {
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .puzzle-card h3 {
+        font-size: 1.1rem;
+        margin: 0 0 0.25rem 0;
+    }
+
+    .puzzle-card-description {
+        color: var(--text-light);
+        font-size: 0.9rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .puzzle-card h3 a {
+        color: var(--text-color);
+        text-decoration: none;
+        border-bottom: none;
+    }
+
+    .puzzle-card h3 a:hover {
+        color: var(--link-color);
+    }
+
+    .puzzle-card-meta {
+        font-size: 0.85rem;
+        color: var(--text-light);
+        margin-top: 0.5rem;
+    }
+
+    .puzzle-card-meta span {
+        display: block;
+        margin-bottom: 0.3rem;
+    }
+
+    .no-results {
+        text-align: center;
+        padding: 3rem 1rem;
+        color: var(--text-light);
+    }
+
+    @media (max-width: 768px) {
+        .puzzle-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{{ end }}
+
+{{ define "main" }}
+<h1>{{ .Title }}</h1>
+{{ if .Content }}
+<div class="description">
+    {{ .Content }}
+</div>
+{{ end }}
+
+{{ $puzzles := where .Site.RegularPages "Section" "puzzles" }}
+
+{{ if $puzzles }}
+<div class="filters">
+    <div class="filter-group">
+        <label for="topic-filter">Topic:</label>
+        <select id="topic-filter">
+            <option value="">All Topics</option>
+            {{ $topics := slice }}
+            {{ range $puzzles }}
+                {{ range .Params.topics }}
+                    {{ $topics = $topics | append . }}
+                {{ end }}
+            {{ end }}
+            {{ range ($topics | uniq) }}
+            <option value="{{ . }}">{{ . }}</option>
+            {{ end }}
+        </select>
+    </div>
+</div>
+
+<div class="puzzle-grid" id="puzzle-grid">
+    {{ range $puzzles }}
+    <div class="puzzle-card" data-topics="{{ delimit .Params.topics "," }}">
+        <h3>
+            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        </h3>
+        {{ if .Description }}
+        <div class="puzzle-card-description">{{ .Description }}</div>
+        {{ end }}
+        <div class="puzzle-card-meta">
+            {{ if .Params.topics }}
+            <span><strong>Topics:</strong> {{ delimit .Params.topics ", " }}</span>
+            {{ end }}
+        </div>
+    </div>
+    {{ end }}
+</div>
+
+<div class="no-results" id="no-results" style="display: none;">
+    <p>No puzzles match your filters. Try adjusting your selection.</p>
+</div>
+
+<script>
+    const topicFilter = document.getElementById('topic-filter');
+    const puzzleGrid = document.getElementById('puzzle-grid');
+    const noResults = document.getElementById('no-results');
+    const cards = puzzleGrid.querySelectorAll('.puzzle-card');
+
+    function filterPuzzles() {
+        const selectedTopic = topicFilter.value.toLowerCase();
+
+        let visibleCount = 0;
+
+        cards.forEach(card => {
+            const cardTopics = card.dataset.topics.toLowerCase();
+
+            const topicMatch = !selectedTopic || cardTopics.includes(selectedTopic);
+
+            if (topicMatch) {
+                card.style.display = 'block';
+                visibleCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        if (visibleCount === 0) {
+            puzzleGrid.style.display = 'none';
+            noResults.style.display = 'block';
+        } else {
+            puzzleGrid.style.display = 'grid';
+            noResults.style.display = 'none';
+        }
+    }
+
+    topicFilter.addEventListener('change', filterPuzzles);
+</script>
+
+{{ else }}
+<p>No puzzles yet. Check back soon!</p>
+{{ end }}
+
+{{ end }}

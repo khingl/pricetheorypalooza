@@ -1,0 +1,102 @@
+{{ define "head" }}
+<style>
+    .page-title {
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .puzzle-list {
+        list-style: none;
+        padding: 0;
+    }
+
+    .puzzle-item {
+        margin-bottom: 2rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .puzzle-item:last-child {
+        border-bottom: none;
+    }
+
+    .puzzle-date {
+        color: var(--text-light);
+        font-size: 0.9rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .puzzle-item h2 {
+        font-size: 1.4rem;
+        margin: 0.3rem 0 0.5rem 0;
+    }
+
+    .puzzle-item h2 a {
+        color: var(--text-color);
+        text-decoration: none;
+        border-bottom: none;
+    }
+
+    .puzzle-item h2 a:hover {
+        color: var(--link-color);
+    }
+
+    .puzzle-meta {
+        color: var(--text-light);
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
+    }
+
+    .puzzle-meta span {
+        margin-right: 1rem;
+    }
+</style>
+{{ end }}
+
+{{ define "main" }}
+<div class="page-title">
+    <h1>{{ .Title }}</h1>
+    {{ if .Content }}
+    <div class="description">
+        {{ .Content }}
+    </div>
+    {{ end }}
+</div>
+
+{{ if .Pages }}
+<ul class="puzzle-list">
+    {{ range .Pages }}
+    <li class="puzzle-item">
+        <div class="puzzle-date">
+            <time datetime="{{ .Date.Format "2006-01-02" }}">
+                {{ .Date.Format "January 2, 2006" }}
+            </time>
+        </div>
+        <h2>
+            <a href="{{ .RelPermalink }}">
+                {{ if .Params.subtitle }}
+                    {{ .Params.subtitle }}
+                {{ else }}
+                    Puzzle for {{ .Date.Format "January 2, 2006" }}
+                {{ end }}
+            </a>
+        </h2>
+        <div class="puzzle-meta">
+            {{ if .Params.topics }}
+            <span>
+                <strong>Topics:</strong>
+                {{ range $index, $topic := .Params.topics }}
+                    {{ if $index }}, {{ end }}{{ $topic }}
+                {{ end }}
+            </span>
+            {{ end }}
+        </div>
+    </li>
+    {{ end }}
+</ul>
+{{ else }}
+<p>No puzzles yet. Check back soon!</p>
+{{ end }}
+
+{{ end }}

@@ -1,0 +1,49 @@
+# -----------------------------
+# Hugo build output / caches
+# -----------------------------
+/public/
+/resources/_gen/
+/.hugo_build.lock
+/.hugo_cache/
+
+# -----------------------------
+# Local Hugo binaries / tooling
+# -----------------------------
+/hugo_bin/
+/hugo
+/hugo.exe
+*.zip
+
+# Agent / AI tooling folders
+.claude/
+
+# -----------------------------
+# OS files
+# -----------------------------
+.DS_Store
+Thumbs.db
+
+# -----------------------------
+# Editor files
+# -----------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# -----------------------------
+# Private / sensitive-ish files
+# -----------------------------
+*.pdf
+*.epub
+*.mobi
+*.djvu
+*.azw*
+.env
+.env.*
+
+# -----------------------------
+# Temp
+# -----------------------------
+tmp*
