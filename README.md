@@ -1,11 +1,7 @@
 # Price Theory Palooza
 
-A catalogue of price theory puzzles and problems, built with Hugo and deployed to GitHub Pages.
+Price Theory Palooza is a place that celebrates price theory and the economic way of thinking by sharing puzzles and problems.
 
 **Live Site:** https://khingl.github.io/pricetheorypalooza/
-
-## About
-
-Price Theory Palooza celebrates price theory and the economic way of thinking.
 
 For more information, see the [About page](https://khingl.github.io/pricetheorypalooza/about/).
