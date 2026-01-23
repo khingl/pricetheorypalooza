@@ -28,7 +28,3 @@ id: ""
 
 
 ---
-
-## Notes
-
-[Optional: additional notes, common mistakes, extensions, teaching points]
