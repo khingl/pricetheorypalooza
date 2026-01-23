@@ -78,6 +78,29 @@
         cursor: not-allowed;
         pointer-events: none;
     }
+
+    .random-btn {
+        margin-left: auto;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 2.5rem;
+        padding: 0 1rem;
+        background-color: var(--link-color);
+        color: white;
+        border-radius: 4px;
+        text-decoration: none;
+        border: none;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    .random-btn:hover {
+        background-color: var(--link-hover);
+        color: white;
+        border-bottom: none;
+    }
 </style>
 {{ end }}
 
@@ -140,7 +163,25 @@
                 {{- else }}
                 <span class="nav-btn disabled">→</span>
                 {{- end }}
+
+                <button class="random-btn" onclick="goToRandomPuzzle()">Random</button>
             </div>
+
+            <script>
+                var puzzleUrls = [
+                    {{- $puzzles := where $.Site.RegularPages "Section" "puzzles" }}
+                    {{- range $index, $puzzle := $puzzles }}
+                    {{- if $index }},{{ end }}"{{ $puzzle.RelPermalink }}"
+                    {{- end }}
+                ];
+
+                function goToRandomPuzzle() {
+                    if (puzzleUrls.length > 0) {
+                        var randomIndex = Math.floor(Math.random() * puzzleUrls.length);
+                        window.location.href = puzzleUrls[randomIndex];
+                    }
+                }
+            </script>
         </div>
     </article>
     {{ end }}
