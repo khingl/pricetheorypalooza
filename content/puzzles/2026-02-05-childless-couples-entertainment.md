@@ -1,7 +1,7 @@
 ---
 title: "PTP #9"
 description: "From Steven Landsburg"
-date: 2026-02-05
+date: 2026-02-06
 draft: false
 slug: "ptp-9-childless-couples"
 
